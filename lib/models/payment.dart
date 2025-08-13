@@ -1,22 +1,25 @@
-class Progress {
+class Payment {
   final int id;
   final int studentId;
-  final int pagesListened;
+  final double amount;
   final DateTime date;
+  final String method;
 
-  Progress({
+  Payment({
     required this.id,
     required this.studentId,
-    required this.pagesListened,
+    required this.amount,
     required this.date,
+    required this.method,
   });
 
-  factory Progress.fromJson(Map<String, dynamic> json) {
-    return Progress(
+  factory Payment.fromJson(Map<String, dynamic> json) {
+    return Payment(
       id: json['id'],
       studentId: json['student'],
-      pagesListened: json['pages_listened'],
+      amount: (json['amount'] as num).toDouble(),
       date: DateTime.parse(json['date']),
+      method: json['method'],
     );
   }
 
@@ -24,8 +27,9 @@ class Progress {
     return {
       'id': id,
       'student': studentId,
-      'pages_listened': pagesListened,
+      'amount': amount,
       'date': date.toIso8601String(),
+      'method': method,
     };
   }
 }

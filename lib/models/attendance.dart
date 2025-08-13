@@ -1,22 +1,22 @@
-class Progress {
+class Attendance {
   final int id;
   final int studentId;
-  final int pagesListened;
   final DateTime date;
+  final bool present;
 
-  Progress({
+  Attendance({
     required this.id,
     required this.studentId,
-    required this.pagesListened,
     required this.date,
+    required this.present,
   });
 
-  factory Progress.fromJson(Map<String, dynamic> json) {
-    return Progress(
+  factory Attendance.fromJson(Map<String, dynamic> json) {
+    return Attendance(
       id: json['id'],
       studentId: json['student'],
-      pagesListened: json['pages_listened'],
       date: DateTime.parse(json['date']),
+      present: json['present'],
     );
   }
 
@@ -24,8 +24,8 @@ class Progress {
     return {
       'id': id,
       'student': studentId,
-      'pages_listened': pagesListened,
       'date': date.toIso8601String(),
+      'present': present,
     };
   }
 }
