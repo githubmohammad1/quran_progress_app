@@ -1,0 +1,81 @@
+# ----------------------------------------
+# General
+# ----------------------------------------
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+migrate_working_dir/
+
+# ----------------------------------------
+# IDEs / Editors
+# ----------------------------------------
+# IntelliJ / Android Studio
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# VS Code
+.vscode/
+
+# Atom
+.atom/
+
+# Build / History
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+
+# ----------------------------------------
+# Flutter / Dart / Pub
+# ----------------------------------------
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub/
+/.pub-cache/
+build/
+
+# Generated documentation
+**/doc/api/
+
+# ----------------------------------------
+# Android
+# ----------------------------------------
+android/.gradle/
+android/local.properties
+/android/app/debug/
+android/app/profile/
+android/app/release/
+
+# Keystore files
+android/app/*.keystore
+
+# ----------------------------------------
+# iOS
+# ----------------------------------------
+ios/Flutter/Flutter.framework/
+ios/Flutter/Flutter.podspec
+ios/Pods/
+ios/Runner.xcworkspace/
+ios/Runner.xcodeproj/project.xcworkspace/
+ios/Runner.xcodeproj/xcshareddata/
+ios/Runner.xcodeproj/xcuserdata/
+
+# CocoaPods
+ios/Podfile.lock
+ios/Pods/
+
+# Generated Xcode files
+ios/*.xcuserstate
+
+# ----------------------------------------
+# Miscellaneous Artifacts
+# ----------------------------------------
+app.*.symbols
+app.*.map.json

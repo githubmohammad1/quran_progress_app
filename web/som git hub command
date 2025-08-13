@@ -1,0 +1,12 @@
+git add .
+git commit -m "Initial web build"
+git branch -M main
+git push -u origin main
+
+flutter build web --base-href "/mystudentapp-web/"
+
+
+cd build/web
+git add .
+git commit -m "update"
+git push
