@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/student_provider.dart';
 import '../providers/progress_provider.dart';
 import '../providers/attendance_provider.dart';
-import '../models/student.dart';
+
 
 class ProgressTakeScreen extends StatefulWidget {
   const ProgressTakeScreen({super.key});

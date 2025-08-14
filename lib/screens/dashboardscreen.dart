@@ -15,11 +15,7 @@ class DashboardScreen extends StatelessWidget {
     required this.actions,
   });
 
-  void _showComingSoon(BuildContext context, String feature) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('$feature: قريبًا')));
-  }
+
 
   void _navigateTo(BuildContext context, String routeName) {
     Navigator.pushNamed(context, routeName);
