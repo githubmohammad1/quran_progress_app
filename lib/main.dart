@@ -8,7 +8,7 @@ import 'providers/payment_provider.dart';
 import 'providers/progress_provider.dart';
 import 'screens/announcements_screen.dart';
 import 'screens/attendance_take_screen.dart';
-import 'screens/attendancesScreen.dart';
+// import 'screens/attendancesScreen.dart';
 import 'screens/payments_screen.dart';
 import 'screens/progress_take_screen.dart';
 import 'screens/tests_list_screen.dart';
@@ -20,7 +20,7 @@ import 'screens/dummy_page.dart';
 import 'screens/login_screen.dart';
 import 'screens/parent_dashboard.dart';
 import 'screens/settings_controller.dart';
-import 'screens/splash_screen.dart';
+// import 'screens/splash_screen.dart';
 import 'screens/students_list_screen.dart';
 import 'screens/teacher_dashboard.dart';
 
@@ -121,3 +121,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+//sssssssssssssssssssssssssssssssssssssssss
