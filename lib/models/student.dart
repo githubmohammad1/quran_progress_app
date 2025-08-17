@@ -1,13 +1,15 @@
 class Student {
   final int id;
   final String name;
-  final String fatherName;
-  final String motherName;
+
   final int age;
   final DateTime registrationDate;
-  final String phoneNumber;
-  final String email;
-  final String address;
+final String? fatherName;
+final String? motherName;
+final String? phoneNumber;
+final String? email;
+final String? address;
+
 
   Student({
     required this.id,

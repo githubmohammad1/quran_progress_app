@@ -20,8 +20,10 @@ class StudentProvider extends ChangeNotifier {
     _setLoading(true);
     try {
       _items = await _api.fetchStudents();
+      print("dddddddddddddddddddddddddddddd");
       _error = null;
     } on DioException catch (e) {
+      
       _error = _msg(e);
     } catch (e) {
       _error = e.toString();

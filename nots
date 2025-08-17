@@ -11,3 +11,4 @@
 flutter build web --base-href="/mystudentapp-web/"
 
 Copy-Item -Recurse -Force build\web\* C:\Users\mohammad\web_deploy
+flutter build apk --release --target-platform android-arm64

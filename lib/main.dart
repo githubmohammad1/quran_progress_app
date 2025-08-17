@@ -99,7 +99,7 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
 
-      home: const TeacherDashboard(),
+      home: const LoginScreen(),
       routes: {
         '/login': (_) => const LoginScreen(),
         '/recordRecitation': (_) => const ProgressTakeScreen(),

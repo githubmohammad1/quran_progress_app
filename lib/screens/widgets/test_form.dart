@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/test.dart';
 import '../../providers/tests_provider.dart';
+import '../../providers/student_provider.dart';
 
 class TestForm extends StatefulWidget {
   final Test? initial;
@@ -23,6 +24,9 @@ class _TestFormState extends State<TestForm> {
   @override
   void initState() {
     super.initState();
+    // تحميل قائمة الطلاب إذا لم تكن محملة
+    Future.microtask(() => context.read<StudentProvider>().fetchAll());
+
     if (widget.initial != null) {
       final t = widget.initial!;
       _studentId = t.student;
@@ -31,7 +35,7 @@ class _TestFormState extends State<TestForm> {
       _date = t.date;
       _note = t.note;
     } else {
-      _studentId = 1;
+      _studentId = 0; // سيتم اختيار الطالب لاحقًا
       _partNumber = 1;
     }
   }
@@ -40,6 +44,8 @@ class _TestFormState extends State<TestForm> {
   Widget build(BuildContext context) {
     final grades = const ['جيد', 'جيد جدًا', 'ممتاز'];
     final isEdit = widget.initial != null;
+
+    final students = context.watch<StudentProvider>().items;
 
     return Scaffold(
       appBar: AppBar(
@@ -52,18 +58,19 @@ class _TestFormState extends State<TestForm> {
             key: _formKey,
             child: ListView(
               children: [
-                // معرّف الطالب
-                TextFormField(
-                  initialValue: _studentId.toString(),
-                  decoration: const InputDecoration(labelText: 'معرّف الطالب'),
-                  keyboardType: TextInputType.number,
-                  validator: (v) {
-                    if (v == null || v.isEmpty) return 'أدخل رقم الطالب';
-                    final n = int.tryParse(v);
-                    if (n == null || n <= 0) return 'رقم غير صالح';
-                    return null;
-                  },
-                  onSaved: (v) => _studentId = int.parse(v!),
+                // اختيار الطالب من القائمة
+                DropdownButtonFormField<int>(
+                  value: _studentId > 0 ? _studentId : null,
+                  decoration: const InputDecoration(labelText: 'اسم الطالب'),
+                  items: students
+                      .map((s) => DropdownMenuItem(
+                            value: s.id,
+                            child: Text(s.name),
+                          ))
+                      .toList(),
+                  validator: (v) =>
+                      v == null || v <= 0 ? 'اختر الطالب' : null,
+                  onChanged: (v) => setState(() => _studentId = v ?? 0),
                 ),
 
                 const SizedBox(height: 8),
@@ -163,7 +170,6 @@ class _TestFormState extends State<TestForm> {
         await provider.update(test);
       }
       if (!mounted) return;
-      // أعد نتيجة للمتصل ليتصرف (تحديث + SnackBar)
       Navigator.pop(context, true);
     } catch (e) {
       if (!mounted) return;

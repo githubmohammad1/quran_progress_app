@@ -1,9 +1,12 @@
 // login_screen.dart
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'constants.dart';
+import 'package:http/http.dart' as http;
 
-import 'dashboardscreen.dart';
+import 'app_drawer.dart';
+import 'teacher_dashboard.dart';
+import 'parent_dashboard.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -27,11 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _showComingSoon(String feature) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('$feature: قريبًا')));
-  }
+ 
 
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
@@ -41,41 +40,61 @@ class _LoginScreenState extends State<LoginScreen> {
       final username = _usernameCtrl.text.trim();
       final password = _passwordCtrl.text;
 
-      // تحديد الدور
-      if (password != teacherSecret && password != parentSecret) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('بيانات الدخول غير صحيحة')),
-        );
-        return;
-      }
+      final url = Uri.parse(
+        'https://mohammadpythonanywher1.pythonanywhere.com/api-token-auth/',
+      ); // رابط API
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'username': username, 'password': password}),
+      );
 
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('username', username);
-      await prefs.setString('password', password);
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
 
-      if (!mounted) return;
+        final token = data['token'];
+        final role = data['role']; // مثال: "teacher" أو "parent"
+        print("ttlog in page ");
+        if (token == null || role == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('بيانات الدخول غير صحيحة')),
+          );
+          return;
+        }
 
-      if (password == teacherSecret) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const DashboardScreen(
-              title: 'لوحة تحكم المعلم',
-              actions: teacherActions,
-            ),
-          ),
-        );
+        // تخزين البيانات
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('username', username);
+        await prefs.setString('token', token);
+        await prefs.setString('role', role);
+
+        if (!mounted) return;
+
+        // التوجيه حسب الدور
+        if (role == 'admin') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const TeacherDashboard()),
+          );
+        } else if (role == 'parent') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const ParentDashboard()),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('دور المستخدم غير معروف')),
+          );
+        }
       } else {
-        Navigator.pushReplacement(
+        ScaffoldMessenger.of(
           context,
-          MaterialPageRoute(
-            builder: (_) => const DashboardScreen(
-              title: 'لوحة تحكم ولي الأمر',
-              actions: parentActions,
-            ),
-          ),
-        );
+        ).showSnackBar(const SnackBar(content: Text('فشل الاتصال بالخادم')));
       }
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('خطأ: $e')));
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -84,21 +103,12 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AppDrawer(),
       appBar: AppBar(
         title: const Text('تسجيل الدخول'),
         centerTitle: true,
-        actions: [
-          IconButton(
-            tooltip: 'الإعدادات',
-            onPressed: () => _showComingSoon('الإعدادات'),
-            icon: const Icon(Icons.settings),
-          ),
-          IconButton(
-            tooltip: 'تسجيل الخروج',
-            onPressed: () => _showComingSoon('تسجيل الخروج'),
-            icon: const Icon(Icons.logout),
-          ),
-        ],
+        
+        
       ),
       body: Center(
         child: ConstrainedBox(
@@ -118,8 +128,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       border: OutlineInputBorder(),
                     ),
                     validator: (v) {
-                      if (v == null || v.trim().isEmpty)
+                      if (v == null || v.trim().isEmpty) {
                         return 'أدخل اسم المستخدم';
+                      }
                       return null;
                     },
                   ),
@@ -139,7 +150,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     validator: (v) {
-                      if (v == null || v.isEmpty) return 'أدخل كلمة السر';
+                      if (v == null || v.isEmpty) {
+                        return 'أدخل كلمة السر';
+                      }
                       return null;
                     },
                   ),
@@ -156,11 +169,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             )
                           : const Text('دخول'),
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  const Text(
-                    'ملاحظة: للدخول كمعلم استخدم كلمة السر teacher123، وكولي أمر استخدم parent123.',
-                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
