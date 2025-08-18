@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/announcement.dart';
-import '../providers/announcement_provider.dart';
+import '../../models/announcement.dart';
+import '../../providers/announcement_provider.dart';
 
 class AnnouncementForm extends StatefulWidget {
   final Announcement? initial;

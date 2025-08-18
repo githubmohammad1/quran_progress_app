@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 enum AppThemeMode { system, light, dark }
 
-enum AppLocale { system, ar, en }
+enum AppLocale { system,en , ar }
 
 class SettingsController extends ChangeNotifier {
   AppThemeMode _themeMode = AppThemeMode.system;
@@ -38,7 +38,7 @@ Future<void> init() async {
         return const Locale('en');
       case AppLocale.system:
       default:
-        return null;
+        return const Locale('en');
     }
   }
 

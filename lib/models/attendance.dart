@@ -3,12 +3,14 @@ class Attendance {
   final int student; // FK رقم الطالب
   final DateTime date;
   final String dayName;
+  final bool isPresent;
 
   Attendance({
     required this.id,
     required this.student,
     required this.date,
     required this.dayName,
+    this.isPresent = false,
   });
 
   factory Attendance.fromJson(Map<String, dynamic> j) {
@@ -17,6 +19,17 @@ class Attendance {
       student: j['student'] as int,
       date: DateTime.parse(j['date'] as String),
       dayName: j['day_name'] as String,
+      isPresent: j['is_present'] ?? true,
+    );
+    
+  }
+  factory Attendance.empty() {
+    return Attendance(
+      id: 0,
+      student: 0,
+      date: DateTime(2000),
+      dayName: '',
+      isPresent: false,
     );
   }
 

@@ -9,17 +9,19 @@ import 'providers/progress_provider.dart';
 import 'screens/announcements_screen.dart';
 import 'screens/attendance_take_screen.dart';
 // import 'screens/attendancesScreen.dart';
+import 'screens/new_table.dart';
 import 'screens/payments_screen.dart';
 import 'screens/progress_take_screen.dart';
 import 'screens/tests_list_screen.dart';
+import 'screens/widgets/flutter_chart.dart';
 import 'services/api_service.dart';
 import 'providers/tests_provider.dart';
 import 'providers/student_provider.dart';
 
-import 'screens/dummy_page.dart';
+
 import 'screens/login_screen.dart';
 import 'screens/parent_dashboard.dart';
-import 'screens/settings_controller.dart';
+import 'screens/widgets/settings_controller.dart';
 // import 'screens/splash_screen.dart';
 import 'screens/students_list_screen.dart';
 import 'screens/teacher_dashboard.dart';
@@ -89,34 +91,31 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
         useMaterial3: true,
-        fontFamily: 'Roboto',
+        // fontFamily: 'Roboto',
       ),
       locale: settings.materialLocale,
-      supportedLocales: const [Locale('ar'), Locale('en')],
+      supportedLocales: const [Locale('en'), Locale('ar')],
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
 
-      home: const LoginScreen(),
+      home: ParentDashboard(),
       routes: {
+        '/parentDashboard': (_) => const ParentDashboard(),
         '/login': (_) => const LoginScreen(),
         '/recordRecitation': (_) => const ProgressTakeScreen(),
         '/recordAttendance': (_) => const AttendanceTakeScreen(),
-        '/recordExam': (_) => const DummyPage(title: 'تسجيل اختبار'),
         '/addStudent': (_) => const StudentListScreen(title: 'إضافة طالب'),
-        '/deleteStudent': (_) => const DummyPage(title: 'حذف طالب'),
-        '/editStudent': (_) => const DummyPage(title: 'تعديل بيانات طالب'),
         '/addAnnouncement': (_) => const AnnouncementsScreen(),
         '/recordPayments': (_) => const PaymentsScreen(),
-        '/viewReport': (_) => const DummyPage(title: 'تقرير الطالب'),
-        '/viewAnnouncements': (_) => const DummyPage(title: 'الإعلانات'),
         '/viewStudent': (_) => const StudentListScreen(title: 'طلابنا'),
         '/teacherDashboard': (_) => const TeacherDashboard(),
-        '/parentDashboard': (_) => const ParentDashboard(),
+        
         '/tests': (_) => const TestsListScreen(),
-        // '/payment': (_) => const PaymentsScreen()
+        '/fl_chart': (_) => AttendanceChart(data:{}),
+        '/table': (_) => const AttendanceTable()
       },
     );
   }

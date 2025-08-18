@@ -13,33 +13,47 @@ class AttendanceProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
 
   // جلب سجلات الحضور (اختياريًا بتاريخ محدد)
-  Future<void> fetchAttendances({DateTime? date}) async {
-    _isLoading = true;
+Future<void> fetchAttendances({DateTime? date}) async {
+  _isLoading = true;
+  notifyListeners();
+  try {
+    final dateStr =
+        date != null ? date.toIso8601String().split('T').first : null;
+
+    // جلب القائمة من الـ API
+    final list = await _api.fetchAttendances(date: dateStr);
+
+    // إضافة قيمة isPresent = true لكل سجل تم إرجاعه
+    final withPresence = list
+        .map((a) => Attendance(
+              id: a.id,
+              student: a.student,
+              date: a.date,
+              dayName: a.dayName,
+              isPresent: true, // حاضر لأن عنده سجل
+            ))
+        .toList();
+
+    _items
+      ..clear()
+      ..addAll(withPresence);
+
+  } catch (e) {
+    debugPrint('Fetch attendances error: $e');
+  } finally {
+    _isLoading = false;
     notifyListeners();
-    try {
-      final dateStr =
-          date != null ? date.toIso8601String().split('T').first : null;
-      final list = await _api.fetchAttendances(date: dateStr);
-      _items
-        ..clear()
-        ..addAll(list);
-    } catch (e) {
-      debugPrint('Fetch attendances error: $e');
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
   }
+}
 
-  // مجموعة IDs للطلاب الحاضرين في تاريخ معيّن اعتمادًا على العناصر الحالية
-  Set<int> presentStudentIdsForDate(DateTime date) {
-    final dateStr = date.toIso8601String().split('T').first;
-    return _items
-        .where((a) => a.date.toIso8601String().split('T').first == dateStr)
-        .map((a) => a.student)
-        .toSet();
-  }
-
+// مجموعة IDs للطلاب الحاضرين في تاريخ معيّن اعتمادًا على العناصر الحالية
+Set<int> presentStudentIdsForDate(DateTime date) {
+  final dateStr = date.toIso8601String().split('T').first;
+  return _items
+      .where((a) => a.date.toIso8601String().split('T').first == dateStr)
+      .map((a) => a.student)
+      .toSet();
+}
   Future<Attendance?> create(Attendance a) async {
     try {
       final created = await _api.createAttendance(a);

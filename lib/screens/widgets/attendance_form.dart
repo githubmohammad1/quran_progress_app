@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/attendance.dart';
-import '../providers/attendance_provider.dart';
-import '../providers/student_provider.dart';
-import '../models/student.dart';
+import '../../models/attendance.dart';
+import '../../providers/attendance_provider.dart';
+import '../../providers/student_provider.dart';
+import '../../models/student.dart';
 
 class AttendanceForm extends StatefulWidget {
   final Attendance? initial;

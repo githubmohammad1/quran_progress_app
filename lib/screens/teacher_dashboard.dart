@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'app_drawer.dart';
+import 'widgets/app_drawer.dart';
 
 class TeacherDashboard extends StatelessWidget {
   const TeacherDashboard({super.key});
@@ -14,20 +14,15 @@ class TeacherDashboard extends StatelessWidget {
     final List<Map<String, String>> actions = [
       {'label': '📖 تسجيل تسميع الطالب', 'route': '/recordRecitation'},
       {'label': '🕋 تسجيل حضور', 'route': '/recordAttendance'},
-      // {'label': '📝 تسجيل اختبار', 'route': '/recordExam'},
-      // {'label': '➕ إضافة طالب', 'route': '/addStudent'},
-      // {'label': '🗑️ حذف طالب', 'route': '/deleteStudent'},
-      // {'label': '✏️ تعديل بيانات طالب', 'route': '/editStudent'},
       {'label': '📢 إضافة إعلان', 'route': '/addAnnouncement'},
       {'label': '💰 تسجيل الدفعات الشهرية', 'route': '/recordPayments'},
       {'label': '📋 قائمة الطلاب', 'route': '/viewStudent'},
       {'label': '📝 الاختبارات', 'route': '/tests'},
+      {'label': '📅 جدول الحضور', 'route': '/table'},
 
     ];
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
+    return Scaffold(
         drawer: const AppDrawer(),
         appBar: AppBar(
           title: const Text('لوحة تحكم المعلم'),
@@ -71,7 +66,7 @@ class TeacherDashboard extends StatelessWidget {
             },
           ),
         ),
-      ),
-    );
+      );
+
   }
 }

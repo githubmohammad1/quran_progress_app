@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/payment.dart';
-import '../providers/payment_provider.dart';
-import '../providers/student_provider.dart';
-import '../models/student.dart';
+import '../../models/payment.dart';
+import '../../providers/payment_provider.dart';
+import '../../providers/student_provider.dart';
+import '../../models/student.dart';
 
 class PaymentForm extends StatefulWidget {
   final Payment? initial;

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/attendance_provider.dart';
 import '../providers/student_provider.dart';
 
-import 'attendance_form.dart';
+import 'widgets/attendance_form.dart';
 
 class AttendancesScreen extends StatefulWidget {
   final int? studentId; // اختياري: عرض حضور طالب محدد

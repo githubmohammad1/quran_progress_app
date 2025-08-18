@@ -2,7 +2,7 @@ class Announcement {
   final int id;
   final String title;
   final String content;
-  final DateTime date; // auto_now_add من السيرفر
+  final DateTime date; 
 
   Announcement({
     required this.id,

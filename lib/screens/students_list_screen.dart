@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/student_provider.dart';
 
-import 'student_form.dart';
+import 'widgets/student_form.dart';
 
 class StudentListScreen extends StatefulWidget {
   final String? title;

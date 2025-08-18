@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/payment_provider.dart';
 import '../providers/student_provider.dart';
-import 'payment_form.dart';
+import 'widgets/payment_form.dart';
 
 class PaymentsScreen extends StatefulWidget {
   final int? studentId;

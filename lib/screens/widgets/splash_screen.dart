@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'constants.dart';
 
-import 'parent_dashboard.dart';
-import 'teacher_dashboard.dart';
+import '../parent_dashboard.dart';
+import '../teacher_dashboard.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
